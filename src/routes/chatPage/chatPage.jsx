@@ -1,9 +1,9 @@
 import './chatPage.css'
 
-const chatPage = () => {
+const ChatPage = () => {
   return (
     <div className='chatPage'>chatPage</div>
   )
 }
 
-export default chatPage
+export default ChatPage

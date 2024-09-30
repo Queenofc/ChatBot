@@ -1,9 +1,9 @@
 import './dashboardPage.css'
 
-const dashboardPage = () => {
+const DashboardPage = () => {
   return (
     <div className='dashboardPage'>dashboardPage</div>
   )
 }
 
-export default dashboardPage
+export default DashboardPage
