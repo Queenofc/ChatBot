@@ -4,6 +4,7 @@ import './homepage.css'
 const Homepage = () => {
   return (
     <div className='homepage'>
+      <img src="/orbital.png" alt="" className="orbital" />
       <div className="left">
         <h1>MindFlow</h1>
         <h2>Write your tagline here</h2>
@@ -11,9 +12,16 @@ const Homepage = () => {
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat sint
           dolorem doloribus, architecto dolor.
         </h3>
-        <button>Get Started</button>
+        <Link to="/dashboard">Get Started</Link>
     </div>
-    <div className="right"></div>
+    <div className="right">
+      <div className="imgContainer">
+        <div className="bgContainer">
+          <div className="bg"></div>
+        </div>
+          <img src="/bot.png" alt="" className="bot" />
+      </div>
+      </div>
     </div>
   )
 }
