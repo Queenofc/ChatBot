@@ -21,7 +21,8 @@
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      @media screen and (max-width: 1280px) {
+      @media screen and (max-width: 900px) {
+        /*In order to change the width os screen modify this */
         font-size: 64px;
       }
     }
