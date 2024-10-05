@@ -1,9 +1,7 @@
-import './chatPage.css'
+import "./chatPage.css";
 
 const ChatPage = () => {
-  return (
-    <div className='chatPage'>chatPage</div>
-  )
-}
+  return <div className="chatPage">chatPage</div>;
+};
 
-export default ChatPage
+export default ChatPage;
