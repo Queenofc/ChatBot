@@ -19,13 +19,31 @@
   .list {
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow-y: scroll;
+
     &::-webkit-scrollbar {
-      display: none; /* For Webkit browsers (Chrome, Safari): hide scrollbar*/
+      width: 8px; /* Thin scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #252525; /* Dark background similar to YouTube's theme */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #464545; /* Medium gray for the thumb */
+      border-radius: 10px; /* Rounded corners */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: white; /* Red color on hover to mimic YouTube's red theme */
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none; /* Hide the buttons at the ends of the scrollbar */
     }
   }
   a {
-    padding: 10px;
+    padding: 12px;
     border-radius: 10px;
     font-size: 14px;
     &:hover {
