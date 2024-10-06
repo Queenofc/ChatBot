@@ -11,7 +11,7 @@ const ChatList = () => {
       <hr />
       <span className="title">RECENT CHATS</span>
       <div className="list">
-        <Link to="/">My chat title trtrtrtrttrttrtrtrtrtrtrtrttrttr</Link>
+        <Link to="/">My chat title</Link>
         <Link to="/">My chat title</Link>
         <Link to="/">My chat title</Link>
         <Link to="/">My chat title</Link>
