@@ -17,7 +17,7 @@
     text-align: center;
     h1 {
       font-size: 120px;
-      background: linear-gradient(to right, #217bfe, #e55571);
+      background: linear-gradient(to right, #217bfe, #40e0d0, #fffdd0);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;

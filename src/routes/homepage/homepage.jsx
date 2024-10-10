@@ -11,10 +11,10 @@ const Homepage = () => {
       <img src="/orbital.png" alt="" className="orbital" />
       <div className="left">
         <h1>MindFlow</h1>
-        <h2>Write your tagline here</h2>
+        <h2>Clarity at Your Fingertips</h2>
         <h3>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat sint
-          dolorem doloribus, architecto dolor.
+          MindFlow is your go-to AI assistant that helps you stay organized and
+          reach your goals.
         </h3>
         <Link to="/dashboard">Get Started</Link>
       </div>

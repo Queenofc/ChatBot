@@ -25,7 +25,7 @@
     }
     h1 {
       font-size: 60px;
-      background: linear-gradient(to right, #217bfe, #e55571);
+      background: linear-gradient(to right, #217bfe, #40e0d0, #fffdd0);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
@@ -36,22 +36,30 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 50px;
+    gap: 45px;
+
     .option {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
       font-weight: 300;
       font-size: 14px;
       padding: 10px;
       border: 1px solid #555;
-      border-radius: 25px;
-
+      border-radius: 20px;
+      height: 87px;
+      width: 100px;
       img {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
         object-fit: cover;
+      }
+      span {
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden; /* Hide overflow text */
+        text-overflow: ellipsis; /* Show ellipsis for long text */
+        width: 100%; /* Ensure the span takes full width of the text container */
       }
     }
   }
@@ -73,11 +81,12 @@
 
     input {
       flex: 1;
-      padding: 20px;
+      padding: 15px;
       background-color: transparent;
       border: none;
       outline: none;
       color: #ececec;
+      font-size: 15px;
     }
     button {
       background-color: #605e68;
