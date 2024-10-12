@@ -23,13 +23,17 @@ const authenticator = async () => {
   }
 };
 
-const Upload = () => {
+const Upload = ({setImg}) => {
+
+  const ikUploadRef = useRef(null);
+
     const onError = (err) => {
         console.log("Error", err);
       };
     
       const onSuccess = (res) => {
         console.log("Success", res);
+        setImg((prev)=>({...prev,isLoading:false,dbData: res}))
       };
     
       const onUploadProgress = (progress) => {
@@ -38,6 +42,7 @@ const Upload = () => {
     
       const onUploadStart = (evt) => {
         console.log("start", evt);
+        setImg((prev)=>({...prev,isLoading:true}))
       };
 
   return (
@@ -53,7 +58,14 @@ const Upload = () => {
             useUniqueFileName={true}
             onUploadProgress={onUploadProgress}
             onUploadStart={onUploadStart}
+            style={{ display: "none" }}
+            ref={ikUploadRef}
         />
+        {
+        <label onClick={() => ikUploadRef.current.click()}>
+          <img src="/attachment.png" alt="" />
+        </label>
+      }
     </IKContext>
   )
 }
