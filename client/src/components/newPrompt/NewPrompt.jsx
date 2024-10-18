@@ -9,22 +9,22 @@ const NewPrompt = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
-  const [img,setImg] = useState({
-    isLoading:false,
-    error:"",
-    dbData:{},
-    aiData:{},
-  })
+  const [img, setImg] = useState({
+    isLoading: false,
+    error: "",
+    dbData: {},
+    aiData: {},
+  });
 
   const chat = model.startChat({
     history: [
       {
-        role:"user",
-        parts: [{ text:"Hi! i have dogs at home." }],
+        role: "user",
+        parts: [{ text: "Hi! i have dogs at home." }],
       },
       {
-        role:"model",
-        parts: [{ text:"Hi! Nice to meet you." }]
+        role: "model",
+        parts: [{ text: "Hi! Nice to meet you." }],
       },
     ],
     generationConfig: {
@@ -36,31 +36,28 @@ const NewPrompt = () => {
 
   useEffect(() => {
     endRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [ question, answer, img.dbData]);
+  }, [question, answer, img.dbData]);
 
-  const add = async (text) =>{
-    setQuestion(text)
+  const add = async (text) => {
+    setQuestion(text);
     const result = await chat.sendMessageStream(
-      Object.entries(img.aiData).length ? [img.aiData, text] : [text]
+      Object.entries(img.aiData).length ? [img.aiData, text] : [text],
     );
-    let accumulatedtext="";
-    for await(const chunk of result.stream){
-      const chunkText=chunk.text();
+    let accumulatedtext = "";
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
       console.log(chunkText);
-      accumulatedtext+=chunkText;
-      setAnswer(accumulatedtext)
+      accumulatedtext += chunkText;
+      setAnswer(accumulatedtext);
     }
-    setImg({isLoading:false,
-      error:"",
-      dbData:{},
-      aiData:{},})
-  }
+    setImg({ isLoading: false, error: "", dbData: {}, aiData: {} });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const text = e.target.text.value;
     if (!text) return;
-    add(text, false);
+    add(text);
   };
 
   return (
@@ -76,13 +73,14 @@ const NewPrompt = () => {
         />
       )}
       {question && <div className="message user">{question}</div>}
-      {answer && 
+      {answer && (
         <div className="message ">
           <Markdown>{answer}</Markdown>
-        </div>}
+        </div>
+      )}
       <div className="endChat" ref={endRef}></div>
       <form className="newForm" onSubmit={handleSubmit}>
-        <Upload setImg={setImg}/>
+        <Upload setImg={setImg} />
         <input id="file" type="file" multiple={false} hidden />
         <input type="text" name="text" placeholder="Ask Anything..." />
         <button>

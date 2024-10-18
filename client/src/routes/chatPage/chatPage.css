@@ -37,7 +37,8 @@
       flex-direction: column;
       gap: 20px;
 
-      p,li{
+      p,
+      li {
         margin: 10px 0px;
       }
 

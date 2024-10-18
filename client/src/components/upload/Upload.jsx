@@ -11,7 +11,7 @@ const authenticator = async () => {
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Request failed with status ${response.status}: ${errorText}`
+        `Request failed with status ${response.status}: ${errorText}`,
       );
     }
 
@@ -23,65 +23,64 @@ const authenticator = async () => {
   }
 };
 
-const Upload = ({setImg}) => {
-
+const Upload = ({ setImg }) => {
   const ikUploadRef = useRef(null);
 
-    const onError = (err) => {
-        console.log("Error", err);
-      };
-    
-      const onSuccess = (res) => {
-        console.log("Success", res);
-        setImg((prev)=>({...prev,isLoading:false,dbData: res}))
-      };
-    
-      const onUploadProgress = (progress) => {
-        console.log("Progress", progress);
-      };
-    
-      const onUploadStart = (evt) => {
-        const file = evt.target.files[0];
-    
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImg((prev) => ({
-            ...prev,
-            isLoading: true,
-            aiData: {
-              inlineData: {
-                data: reader.result.split(",")[1],
-                mimeType: file.type,
-              },
-            },
-          }));
-        };
-        reader.readAsDataURL(file);
-      };
+  const onError = (err) => {
+    console.log("Error", err);
+  };
+
+  const onSuccess = (res) => {
+    console.log("Success", res);
+    setImg((prev) => ({ ...prev, isLoading: false, dbData: res }));
+  };
+
+  const onUploadProgress = (progress) => {
+    console.log("Progress", progress);
+  };
+
+  const onUploadStart = (evt) => {
+    const file = evt.target.files[0];
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImg((prev) => ({
+        ...prev,
+        isLoading: true,
+        aiData: {
+          inlineData: {
+            data: reader.result.split(",")[1],
+            mimeType: file.type,
+          },
+        },
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   return (
     <IKContext
-    urlEndpoint={urlEndpoint}
-    publicKey={publicKey}
-    authenticator={authenticator}
+      urlEndpoint={urlEndpoint}
+      publicKey={publicKey}
+      authenticator={authenticator}
     >
-        <IKUpload
-            fileName="test-upload.png"
-            onError={onError}
-            onSuccess={onSuccess}
-            useUniqueFileName={true}
-            onUploadProgress={onUploadProgress}
-            onUploadStart={onUploadStart}
-            style={{ display: "none" }}
-            ref={ikUploadRef}
-        />
-        {
+      <IKUpload
+        fileName="test-upload.png"
+        onError={onError}
+        onSuccess={onSuccess}
+        useUniqueFileName={true}
+        onUploadProgress={onUploadProgress}
+        onUploadStart={onUploadStart}
+        style={{ display: "none" }}
+        ref={ikUploadRef}
+      />
+      {
         <label onClick={() => ikUploadRef.current.click()}>
           <img src="/attachment.png" alt="" />
         </label>
       }
     </IKContext>
-  )
-}
+  );
+};
 
 export default Upload;
