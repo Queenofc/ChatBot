@@ -2,6 +2,9 @@ import express from "express";
 import ImageKit from "imagekit";
 import cors from "cors";
 import mongoose from "mongoose";
+import Chat from "./models/chat.js"
+import UserChats from "./models/userChats.js"
+import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node'
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -34,11 +37,66 @@ app.get("/api/upload", (req, res) => {
     res.send(result);
 });
 
-app.post("/api/chats", (req, res) => {
+// app.get("/api/test",ClerkExpressRequireAuth(), (req, res) => {
+//   const userId=req.auth.userId;
+//   console.log(userId)
+//   res.send("Success!");
+// });
+
+app.post("/api/chats", ClerkExpressRequireAuth(), async (req, res) => {
+  const userId=req.auth.userId;
   const {text} = req.body;
-  console.log(text)
+  try {
+    //CREATE A NEW CHAT
+    const newChat = new Chat
+    ({
+      userId:userId,
+      history:[{role:"user",parts:[{text}]}],
+    });
+
+  const savedChat = await newChat.save() 
+  //CHECK IF THE USER CHAT EXISTS
+  const userChats = await UserChats.find({userId:userId})
+
+  //IF CHAT IS NOT EXISTANT THEN ADD A CHAT IN CHAT ARRAY
+  if(!userChats.length){
+    const newUserChats = new UserChats({
+      userId:userId,
+      chats:[
+        {
+          _id:savedChat._id,
+          title:text.substring(0,40),
+        }
+      ]
+    })
+
+    await newUserChats.save()
+  }else{
+    //IF CHAT EXISTS THEN PUSH TO ARRAY
+    await UserChats.updateOne(
+      {userId:userId},
+      {
+        $push:{
+          chats:{
+            _id:savedChat._id,
+            title:text.substring(0,40),
+        } 
+      }
+    }
+  )
+  res.status(201).send(newChat._id)
+  }
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Error fetching chat!");
+  }
 })
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(401).send("Unauthenticated!");
+});
 
 app.listen(port, () => {
     connect();
