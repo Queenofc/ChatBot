@@ -38,22 +38,22 @@ const Homepage = () => {
             <TypeAnimation
               sequence={[
                 // Same substring at the start will only be typed out once, initially
-                "Human: We produce food for Mice",
+                "Human: Why was the first computer so large?",
                 2000,
                 () => {
                   setTypingStatus("bot");
                 },
-                "Bot: We produce food for Hamsters",
+                "Bot: It's because they used vacuum tubes, which took up a lot of space.",
                 2000,
                 () => {
                   setTypingStatus("human2");
                 },
-                "Human2: We produce food for Guinea Pigs",
+                "Human2: What replaced those vacuum tubes?",
                 2000,
                 () => {
                   setTypingStatus("bot");
                 },
-                "Bot: We produce food for Chinchillas",
+                "Bot: Transistors replaced vacuum tubes, making them more compact.",
                 2000,
                 () => {
                   setTypingStatus("human1");
