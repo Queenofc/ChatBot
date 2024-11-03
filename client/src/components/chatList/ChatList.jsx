@@ -15,7 +15,6 @@ const ChatList = () => {
       <span className="title">DASHBOARD</span>
       <Link to="/dashboard">Create a new Chat</Link>
       <Link to="/">Explore MindFlow</Link>
-      <Link to="/">Contact</Link>
       <hr />
       <span className="title">RECENT CHATS</span>
       <div className="list">
@@ -33,8 +32,8 @@ const ChatList = () => {
       <div className="upgrade">
         <img src="/logo.png" alt="" />
         <div className="texts">
-          <span>Upgrade to MindFlow Pro</span>
-          <span>Get unlimited access to all features</span>
+        <span>Azure</span>
+        <span>Model v1.0</span>
         </div>
       </div>
     </div>
