@@ -32,8 +32,8 @@ const ChatList = () => {
       <div className="upgrade">
         <img src="/logo.png" alt="" />
         <div className="texts">
-        <span>Azure</span>
-        <span>Model v1.0</span>
+          <span>Azure</span>
+          <span>Model v1.0</span>
         </div>
       </div>
     </div>

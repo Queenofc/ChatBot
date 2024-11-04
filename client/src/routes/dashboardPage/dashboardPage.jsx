@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import "./dashboardPage.css";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react"; // New import
+import "./dashboardPage.css";
 
 const DashboardPage = () => {
   const queryClient = useQueryClient();
-
   const navigate = useNavigate();
+  const [inputText, setInputText] = useState(""); // New state for input text
 
   const mutation = useMutation({
     mutationFn: (text) => {
@@ -27,10 +28,11 @@ const DashboardPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const text = e.target.text.value;
+    const text = inputText; // Use inputText from state
     if (!text) return;
     mutation.mutate(text);
   };
+
   return (
     <div className="dashboardPage">
       <div className="texts">
@@ -39,15 +41,15 @@ const DashboardPage = () => {
           <h1>MindFlow</h1>
         </div>
         <div className="options">
-          <div className="option">
+          <div className="option" onClick={() => setInputText("Summarize")}>
             <img src="/chat.png" alt="" />
-            <span>Create a New Chat</span>
+            <span>Summarize</span>
           </div>
-          <div className="option">
+          <div className="option" onClick={() => setInputText("Analyze Image")}>
             <img src="/image.png" alt="" />
-            <span>Analyze Images</span>
+            <span>Analyze Image</span>
           </div>
-          <div className="option">
+          <div className="option" onClick={() => setInputText("Optimize Code")}>
             <img src="/code.png" alt="" />
             <span>Optimize Code</span>
           </div>
@@ -55,7 +57,13 @@ const DashboardPage = () => {
       </div>
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
-          <input type="text" name="text" placeholder="Ask me anything..." />
+          <input
+            type="text"
+            name="text"
+            placeholder="Ask me anything..."
+            value={inputText} // Bind the input value
+            onChange={(e) => setInputText(e.target.value)} // Update input state on change
+          />
           <button>
             <img src="/arrow.png" alt="" />
           </button>

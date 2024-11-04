@@ -50,6 +50,9 @@
       border-radius: 20px;
       height: 87px;
       width: 100px;
+      transition:
+        background-color 0.3s ease-in,
+        transform 0.3s ease-in; /* Smooth transitions with ease-in */
       img {
         width: 35px;
         height: 35px;
@@ -60,6 +63,16 @@
         overflow: hidden; /* Hide overflow text */
         text-overflow: ellipsis; /* Show ellipsis for long text */
         width: 100%; /* Ensure the span takes full width of the text container */
+      }
+      /* Hover effect */
+      &:hover {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.1
+        ); /* Change background color on hover */
+        transform: translateY(-5px); /* Lift the element slightly */
       }
     }
   }

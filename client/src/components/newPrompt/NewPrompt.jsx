@@ -17,15 +17,20 @@ const NewPrompt = ({ data }) => {
   });
 
   const chat = model.startChat({
-    history: data?.history.map(({ role, parts }) => ({
-      role,
-      parts: [{ text: parts[0]?.text || '' }], // Safely access text and provide a fallback
-    })) || [], // Provide an empty array if data.history is undefined
+    history: [
+      {
+        role: "user",
+        parts: [{ text: "Hi!" }],
+      },
+      {
+        role: "model",
+        parts: [{ text: "Hi there!" }],
+      },
+    ],
     generationConfig: {
-      maxOutputTokens: 2048, // Adjust this as necessary to allow for longer responses
+      //maxOutputTokens: 2048, // Allow for longer responses
     },
   });
-  
 
   const endRef = useRef(null);
   const formRef = useRef(null);
@@ -78,17 +83,18 @@ const NewPrompt = ({ data }) => {
       const result = await chat.sendMessageStream(
         Object.entries(img.aiData).length ? [img.aiData, text] : [text],
       );
-      let accumulatedText = "";
-      for await (const chunk of result.stream) {
-        const chunkText = chunk.text();
-        console.log(chunkText);
-        accumulatedText += chunkText;
-        setAnswer(accumulatedText);
-      }
 
-      mutation.mutate();
+      let accumulatedText = ""; // Variable to accumulate the response
+
+      for await (const chunk of result.stream) {
+        const chunkText = chunk.text(); // Extract text from the chunk
+        accumulatedText += chunkText; // Accumulate the full response
+        setAnswer(accumulatedText); // Update state progressively
+      }
+      setAnswer(accumulatedText);
+      mutation.mutate(); // Send the data to the backend
     } catch (err) {
-      console.log(err);
+      console.error("Error during message streaming:", err); // Enhanced error logging
     }
   };
 
@@ -96,9 +102,9 @@ const NewPrompt = ({ data }) => {
     e.preventDefault();
 
     const text = e.target.text.value;
-    if (!text) return;
+    if (!text) return; // Don't proceed if the text is empty
 
-    add(text, false);
+    add(text, false); // Send the input text to the add function
   };
 
   // IN PRODUCTION WE DON'T NEED IT
@@ -107,7 +113,7 @@ const NewPrompt = ({ data }) => {
   useEffect(() => {
     if (!hasRun.current) {
       if (data?.history?.length === 1) {
-        add(data.history[0].parts[0].text, true);
+        add(data.history[0].parts[0].text, true); // Initiate the chat with the first message
       }
     }
     hasRun.current = true;
@@ -120,7 +126,7 @@ const NewPrompt = ({ data }) => {
       {img.dbData?.filePath && (
         <IKImage
           urlEndpoint={import.meta.env.VITE_IMAGE_KIT_ENDPOINT}
-          path={img.dbData?.filePath}
+          path={img.dbData?.filePath} // Ensure this path is valid
           width="380"
           transformation={[{ width: 380 }]}
         />
