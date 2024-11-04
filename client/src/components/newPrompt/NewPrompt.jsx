@@ -1,7 +1,7 @@
-import Upload from "../upload/Upload";
-import "./newPrompt.css";
-import { IKImage } from "imagekitio-react";
 import { useEffect, useRef, useState } from "react";
+import "./newPrompt.css";
+import Upload from "../upload/Upload";
+import { IKImage } from "imagekitio-react";
 import model from "../../lib/gemini";
 import Markdown from "react-markdown";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,7 +9,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 const NewPrompt = ({ data }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
-
   const [img, setImg] = useState({
     isLoading: false,
     error: "",
@@ -18,20 +17,15 @@ const NewPrompt = ({ data }) => {
   });
 
   const chat = model.startChat({
-    history: [
-      {
-        role: "user",
-        parts: [{ text: "Hi!." }],
-      },
-      {
-        role: "model",
-        parts: [{ text: "Hi! Nice to meet you." }],
-      },
-    ],
+    history: data?.history.map(({ role, parts }) => ({
+      role,
+      parts: [{ text: parts[0]?.text || '' }], // Safely access text and provide a fallback
+    })) || [], // Provide an empty array if data.history is undefined
     generationConfig: {
-      // maxOutputTokens: 100,
+      maxOutputTokens: 2048, // Adjust this as necessary to allow for longer responses
     },
   });
+  
 
   const endRef = useRef(null);
   const formRef = useRef(null);
@@ -77,18 +71,19 @@ const NewPrompt = ({ data }) => {
     },
   });
 
-  const add = async (text, isIntial) => {
-    if (!isIntial) setQuestion(text);
+  const add = async (text, isInitial) => {
+    if (!isInitial) setQuestion(text);
+
     try {
       const result = await chat.sendMessageStream(
         Object.entries(img.aiData).length ? [img.aiData, text] : [text],
       );
-      let accumulatedtext = "";
+      let accumulatedText = "";
       for await (const chunk of result.stream) {
         const chunkText = chunk.text();
         console.log(chunkText);
-        accumulatedtext += chunkText;
-        setAnswer(accumulatedtext);
+        accumulatedText += chunkText;
+        setAnswer(accumulatedText);
       }
 
       mutation.mutate();
@@ -99,11 +94,14 @@ const NewPrompt = ({ data }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const text = e.target.text.value;
     if (!text) return;
+
     add(text, false);
   };
 
+  // IN PRODUCTION WE DON'T NEED IT
   const hasRun = useRef(false);
 
   useEffect(() => {
@@ -117,7 +115,7 @@ const NewPrompt = ({ data }) => {
 
   return (
     <>
-      {/*ADD A NEW CHAT*/}
+      {/* ADD NEW CHAT */}
       {img.isLoading && <div className="">Loading...</div>}
       {img.dbData?.filePath && (
         <IKImage
@@ -129,7 +127,7 @@ const NewPrompt = ({ data }) => {
       )}
       {question && <div className="message user">{question}</div>}
       {answer && (
-        <div className="message ">
+        <div className="message">
           <Markdown>{answer}</Markdown>
         </div>
       )}
@@ -137,7 +135,7 @@ const NewPrompt = ({ data }) => {
       <form className="newForm" onSubmit={handleSubmit} ref={formRef}>
         <Upload setImg={setImg} />
         <input id="file" type="file" multiple={false} hidden />
-        <input type="text" name="text" placeholder="Ask Anything..." />
+        <input type="text" name="text" placeholder="Ask anything..." />
         <button>
           <img src="/arrow.png" alt="" />
         </button>
