@@ -18,6 +18,7 @@ MindFlow is an AI-powered chatbot designed to enhance focus, boost creativity, a
 7)Data Persistence – Stores chat history, images, and user preferences in MongoDB.
 
 8)Seamless UI – Clean and intuitive design for smooth interactions.
+
 🛠 Tech Stack
 
 AI Model: Gemini Flash 1.5
