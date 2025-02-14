@@ -19,7 +19,11 @@ MindFlow is an AI-powered chatbot designed to enhance focus, boost creativity, a
 
 8)Seamless UI – Clean and intuitive design for smooth interactions.
 🛠 Tech Stack
+
 AI Model: Gemini Flash 1.5
+
 Frontend: React
+
 Backend: Node.js
+
 Database: MongoDB
